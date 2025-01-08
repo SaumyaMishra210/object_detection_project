@@ -1,3 +1,4 @@
+!pip install ultralytics 
 from ultralytics import YOLO
 import cv2
 import matplotlib.pyplot as plt
@@ -6,8 +7,8 @@ import matplotlib.pyplot as plt
 model = YOLO('yolov8s.pt')  # Use 'yolov8n.pt', 'yolov8s.pt', etc., depending on your needs
 
 # Load an image
-# image_path = "/content/OIP.jpg"  # Replace with your image path
-image_path = "/content/Untitled-design-1.png"
+# image_path = "cars.jpg"  # Replace with your image path
+image_path = "persons.jpg"
 results = model.predict(source=image_path, conf=0.4)  # Perform detection with confidence threshold 0.5
 
 # Read the image using OpenCV for custom drawing
@@ -20,7 +21,7 @@ human_count = 0
 # Iterate through detected objects
 for result in results[0].boxes:
     label = int(result.cls)  # Class ID for the detected object
-    if model.names[label] == 'car':  # Check if the detected object is a person
+    if model.names[label] == 'human':  # Check if the detected object is a person
         human_count += 1
 
         # Get bounding box coordinates and confidence
@@ -42,7 +43,7 @@ for result in results[0].boxes:
         cv2.putText(image, label_text, (x1, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, font_scale, (0, 0, 0), font_thickness)
 
 # Print the count of humans detected
-print(f"Number of humans detected: {human_count}")
+print(f"Number of Human detected: {human_count}")
 
 # Visualize the results on the image
 plt.imshow(image)
